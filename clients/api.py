@@ -9,27 +9,53 @@ class ClientsViewset(mixins.CreateModelMixin,
                      mixins.ListModelMixin, 
                      mixins.UpdateModelMixin, 
                      mixins.RetrieveModelMixin, 
+                     mixins.DestroyModelMixin,
                      GenericViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
 
-class ProjectsViewset(mixins.ListModelMixin, GenericViewSet):
+class ProjectsViewset(mixins.CreateModelMixin,
+                     mixins.ListModelMixin, 
+                     mixins.UpdateModelMixin, 
+                     mixins.RetrieveModelMixin, 
+                     mixins.DestroyModelMixin, 
+                     GenericViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
-class FavoursViewset(mixins.ListModelMixin, GenericViewSet):
+class FavoursViewset(mixins.CreateModelMixin,
+                     mixins.ListModelMixin, 
+                     mixins.UpdateModelMixin, 
+                     mixins.RetrieveModelMixin, 
+                     mixins.DestroyModelMixin, 
+                     GenericViewSet):
     queryset = Favour.objects.all()
     serializer_class = FavourSerializer
 
-class EmployeesViewset(mixins.ListModelMixin, GenericViewSet):
+class EmployeesViewset(mixins.CreateModelMixin,
+                     mixins.ListModelMixin, 
+                     mixins.UpdateModelMixin, 
+                     mixins.RetrieveModelMixin, 
+                     mixins.DestroyModelMixin, 
+                     GenericViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
-class ProjectServiceViewSet(viewsets.ModelViewSet):
+class ProjectServiceViewSet(mixins.CreateModelMixin,
+                     mixins.ListModelMixin, 
+                     mixins.UpdateModelMixin, 
+                     mixins.RetrieveModelMixin, 
+                     mixins.DestroyModelMixin, 
+                     GenericViewSet):
     queryset = ProjectService.objects.all()
     serializer_class = ProjectServiceSerializer
 
-class ReviewViewSet(viewsets.ModelViewSet):
+class ReviewViewSet(mixins.CreateModelMixin,
+                     mixins.ListModelMixin, 
+                     mixins.UpdateModelMixin, 
+                     mixins.RetrieveModelMixin, 
+                     mixins.DestroyModelMixin, 
+                     GenericViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 

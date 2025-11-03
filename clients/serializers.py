@@ -11,18 +11,18 @@ class ProjectSerializer(serializers.ModelSerializer):
     client = ClientSerializer(read_only=True)
     class Meta:
         model = Project
-        fields = ['id', 'name', 'client']
+        fields = ['id', 'name', 'client', 'client_user', 'deadline', 'budget', 'status', 'description']
 
 class FavourSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favour
-        fields = ['id', 'name', 'category']
+        fields = ['id', 'name', 'category', 'description', 'price']
     
 
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ['name', 'position']
+        fields = ['id', 'user', 'position', 'start_work_date'] 
 
 class ProjectServiceSerializer(serializers.ModelSerializer):
     project = ProjectSerializer(read_only=True)
@@ -32,6 +32,8 @@ class ProjectServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectService
         fields = '__all__'
+
+
 
 class ReviewSerializer(serializers.ModelSerializer):
     client_name = serializers.CharField(read_only=True)
