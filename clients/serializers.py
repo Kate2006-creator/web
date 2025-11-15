@@ -39,17 +39,30 @@ class FavourSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ['id', 'user', 'position', 'start_work_date'] 
+        fields = ['id', 'user', 'position', 'start_work_date', 'picture'] 
+
+# class ProjectServiceSerializer(serializers.ModelSerializer):
+#     project = ProjectSerializer(read_only=True)
+#     favour = FavourSerializer(read_only=True)
+#     employee = EmployeeSerializer(read_only=True)
+    
+#     class Meta:
+#         model = ProjectService
+#         fields = '__all__'
 
 class ProjectServiceSerializer(serializers.ModelSerializer):
-    project = ProjectSerializer(read_only=True)
-    favour = FavourSerializer(read_only=True)
-    employee = EmployeeSerializer(read_only=True)
+    project_name = serializers.CharField(source='project.name', read_only=True)
+    favour_name = serializers.CharField(source='favour.name', read_only=True)
+    employee_username = serializers.CharField(source='employee_user.username', read_only=True, allow_null=True)
     
     class Meta:
         model = ProjectService
-        fields = '__all__'
-
+        fields = [
+            'id', 'project', 'favour', 'employee_user', 'status', 
+            'start_date', 'end_date', 'hours_spent', 'notes',
+            'project_name', 'favour_name', 'employee_username'
+        ]
+        read_only_fields = ('start_date', 'id')
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -60,7 +73,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ['id', 'project', 'project_name', 'client_name', 'client_email', 
-                 'rating', 'feedback', 'created_at']
+                 'rating', 'feedback', 'created_at', 'picture']
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:

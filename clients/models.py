@@ -21,6 +21,7 @@ class Client(models.Model):
     )
     sphere = models.CharField("Сфера деятельности", max_length=100)
     company_name = models.CharField("Название компании", max_length=200, blank=True)
+    picture = models.ImageField("Изображение", null=True, upload_to="clients")
     
     class Meta:
         verbose_name = "Клиент"
@@ -76,6 +77,7 @@ class Employee(models.Model):
     )
     position = models.CharField("Должность", max_length=50)
     start_work_date = models.DateField("Дата приёма на работу")
+    picture = models.ImageField("Фото сотрудника", null=True, blank=True, upload_to="clients") 
     
     class Meta:
         verbose_name = "Сотрудник"
@@ -132,6 +134,7 @@ class Review(models.Model):
     rating = models.IntegerField("Оценка", default=5)  # Убрали choices
     feedback = models.TextField("Текст отзыва")
     created_at = models.DateTimeField("Дата отзыва", auto_now_add=True)
+    picture = models.ImageField("Изображение", null=True, blank=True, upload_to="clients")
 
     class Meta:
         verbose_name = "Отзыв"
