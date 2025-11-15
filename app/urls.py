@@ -5,7 +5,7 @@ from clients import views
 from rest_framework.routers import DefaultRouter
 from debug_toolbar.toolbar import debug_toolbar_urls
 
-from clients.api import ClientsViewset, ProjectsViewset, FavoursViewset, EmployeesViewset, ProjectServiceViewSet, ReviewViewSet
+from clients.api import ClientsViewset, ProjectsViewset, FavoursViewset, EmployeesViewset, ProjectServiceViewSet, ReviewViewSet, UserViewSet,UserProfileViewSet
 
 router = DefaultRouter()
 router.register("clients", ClientsViewset, basename="clients")
@@ -14,11 +14,11 @@ router.register("favours", FavoursViewset, basename="favours")
 router.register("employees", EmployeesViewset, basename="employees")
 router.register("project-services", ProjectServiceViewSet, basename="project-services")
 router.register("reviews", ReviewViewSet, basename="reviews")
+router.register("users", UserViewSet, basename="users")  # Добавили эту строку
+router.register("user-profiles", UserProfileViewSet, basename="user-profiles")
 
 urlpatterns = [
-    path('', views.ShowClientsView.as_view()),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('clients/', views.ClientsListTemplate.as_view()),
-    path('projects/',views.ProjectsListTemplate.as_view()),
+    path('api/users/', views.user_list, name='user-list'),  # Добавьте эту строку
 ] + debug_toolbar_urls()

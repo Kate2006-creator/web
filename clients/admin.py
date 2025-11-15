@@ -79,8 +79,8 @@ class ProjectServiceAdmin(admin.ModelAdmin):
 
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['project', 'client_info', 'rating', 'created_at', 'is_published']
-    list_filter = ['rating', 'created_at', 'is_published']
+    list_display = ['project', 'client_info', 'rating', 'created_at']
+    list_filter = ['rating', 'created_at']
     search_fields = ['project__name', 'feedback']
     
     def client_info(self, obj):

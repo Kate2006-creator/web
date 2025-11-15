@@ -12,121 +12,121 @@ from rest_framework import status
 User = get_user_model()
 
 
-# class ClientViewsetTestCase(TestCase):
-#     def setUp(self):
-#         self.client = APIClient()
-#         self.user = User.objects.create_user(
-#             username='testuser',
-#             password='testpass123'
-#         )
-#         self.client.force_authenticate(user=self.user)
+class ClientViewsetTestCase(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpass123'
+        )
+        self.client.force_authenticate(user=self.user)
 
-#     def test_get_clients_list(self):
-#         # Создаем тестовых клиентов
-#         client1 = Client.objects.create(
-#             user=self.user,
-#             sphere="IT",
-#             company_name="IT Company"
-#         )
+    def test_get_clients_list(self):
+        # Создаем тестовых клиентов
+        client1 = Client.objects.create(
+            user=self.user,
+            sphere="IT",
+            company_name="IT Company"
+        )
 
-#         client2 = Client.objects.create(
-#             user=User.objects.create_user(username='user2', password='testpass'),
-#             sphere="Marketing", 
-#             company_name="Marketing Agency"
-#         )
+        client2 = Client.objects.create(
+            user=User.objects.create_user(username='user2', password='testpass'),
+            sphere="Marketing", 
+            company_name="Marketing Agency"
+        )
 
-#         r = self.client.get('/api/clients/')
-#         data = r.json()
-#         print(data)
+        r = self.client.get('/api/clients/')
+        data = r.json()
+        print(data)
 
-#         # Проверяем что вернулось 2 клиента
-#         assert len(data) == 2
+        # Проверяем что вернулось 2 клиента
+        assert len(data) == 2
         
-#         # Проверяем данные первого клиента
-#         assert client1.sphere == data[0]['sphere']
-#         assert client1.company_name == data[0]['company_name']
-#         assert client1.user.id == data[0]['user']
+        # Проверяем данные первого клиента
+        assert client1.sphere == data[0]['sphere']
+        assert client1.company_name == data[0]['company_name']
+        assert client1.user.id == data[0]['user']
 
-#     def test_create_client(self):
-#         new_user = User.objects.create_user(username='newuser', password='testpass')
+    def test_create_client(self):
+        new_user = User.objects.create_user(username='newuser', password='testpass')
 
-#         r = self.client.post("/api/clients/", {
-#             "user": new_user.id,
-#             "sphere": "Розничная торговля",
-#             "company_name": "Магазин Техники"
-#         })
+        r = self.client.post("/api/clients/", {
+            "user": new_user.id,
+            "sphere": "Розничная торговля",
+            "company_name": "Магазин Техники"
+        })
 
-#         new_client_id = r.json()['id']
-#         clients = Client.objects.all()
-#         assert len(clients) == 1
+        new_client_id = r.json()['id']
+        clients = Client.objects.all()
+        assert len(clients) == 1
 
-#         new_client = Client.objects.filter(id=new_client_id).first()
-#         assert new_client.sphere == 'Розничная торговля'
-#         assert new_client.company_name == 'Магазин Техники'
-#         assert new_client.user == new_user
+        new_client = Client.objects.filter(id=new_client_id).first()
+        assert new_client.sphere == 'Розничная торговля'
+        assert new_client.company_name == 'Магазин Техники'
+        assert new_client.user == new_user
 
-#     def test_retrieve_client(self):
-#         client = Client.objects.create(
-#             user=self.user,
-#             sphere="Образование",
-#             company_name="Учебный центр"
-#         )
+    def test_retrieve_client(self):
+        client = Client.objects.create(
+            user=self.user,
+            sphere="Образование",
+            company_name="Учебный центр"
+        )
 
-#         r = self.client.get(f'/api/clients/{client.id}/')
-#         data = r.json()
+        r = self.client.get(f'/api/clients/{client.id}/')
+        data = r.json()
         
-#         assert data['sphere'] == client.sphere
-#         assert data['company_name'] == client.company_name
-#         assert data['user'] == client.user.id
+        assert data['sphere'] == client.sphere
+        assert data['company_name'] == client.company_name
+        assert data['user'] == client.user.id
 
-#     def test_update_client(self):
-#         client = Client.objects.create(
-#             user=self.user,
-#             sphere="Строительство",
-#             company_name="СтройКомпания"
-#         )
+    def test_update_client(self):
+        client = Client.objects.create(
+            user=self.user,
+            sphere="Строительство",
+            company_name="СтройКомпания"
+        )
 
-#         # Получаем текущие данные
-#         r = self.client.get(f'/api/clients/{client.id}/')
-#         data = r.json()
-#         assert data['sphere'] == client.sphere
+        # Получаем текущие данные
+        r = self.client.get(f'/api/clients/{client.id}/')
+        data = r.json()
+        assert data['sphere'] == client.sphere
 
-#         # Обновляем данные
-#         r = self.client.put(f'/api/clients/{client.id}/', {
-#             "user": self.user.id,
-#             "sphere": "IT",
-#             "company_name": "IT Solutions"
-#         })
-#         assert r.status_code == 200
+        # Обновляем данные
+        r = self.client.put(f'/api/clients/{client.id}/', {
+            "user": self.user.id,
+            "sphere": "IT",
+            "company_name": "IT Solutions"
+        })
+        assert r.status_code == 200
 
-#         # Проверяем обновленные данные
-#         r = self.client.get(f'/api/clients/{client.id}/')
-#         data = r.json()
-#         assert data['sphere'] == "IT"
-#         assert data['company_name'] == "IT Solutions"
+        # Проверяем обновленные данные
+        r = self.client.get(f'/api/clients/{client.id}/')
+        data = r.json()
+        assert data['sphere'] == "IT"
+        assert data['company_name'] == "IT Solutions"
 
-#         # Проверяем в базе данных
-#         client.refresh_from_db()
-#         assert client.sphere == "IT"
-#         assert client.company_name == "IT Solutions"
+        # Проверяем в базе данных
+        client.refresh_from_db()
+        assert client.sphere == "IT"
+        assert client.company_name == "IT Solutions"
 
-#     def test_delete_client(self):
-#         client = Client.objects.create(
-#             user=self.user,
-#             sphere="Медицина",
-#             company_name="МедЦентр"
-#         )
+    def test_delete_client(self):
+        client = Client.objects.create(
+            user=self.user,
+            sphere="Медицина",
+            company_name="МедЦентр"
+        )
 
-#         initial_count = Client.objects.count()
+        initial_count = Client.objects.count()
         
-#         r = self.client.delete(f'/api/clients/{client.id}/')
+        r = self.client.delete(f'/api/clients/{client.id}/')
         
-#         # Если метод разрешен - проверяем удаление
-#         if r.status_code == 204:
-#             assert Client.objects.count() == initial_count - 1
-#         else:
-#             # Если метод не разрешен - просто пропускаем
-#             print(f"DELETE method returned {r.status_code}")
+        # Если метод разрешен - проверяем удаление
+        if r.status_code == 204:
+            assert Client.objects.count() == initial_count - 1
+        else:
+            # Если метод не разрешен - просто пропускаем
+            print(f"DELETE method returned {r.status_code}")
 
 class ProjectsViewsetTestCase(TestCase):
     def setUp(self):
@@ -703,8 +703,8 @@ class ReviewViewsetTestCase(TestCase):
         review = Review.objects.create(
             project=self.project,
             rating=5,
-            feedback="Отличная работа!",
-            is_published=True
+            feedback="Отличная работа!"
+            # Убрали is_published
         )
 
         r = self.client.get('/api/reviews/')
@@ -722,6 +722,7 @@ class ReviewViewsetTestCase(TestCase):
             "project": self.project.id,
             "rating": 4,
             "feedback": "Хорошая работа, но есть небольшие недочеты"
+            # Убрали is_published
         })
 
         print("Create review status:", r.status_code)
@@ -739,6 +740,7 @@ class ReviewViewsetTestCase(TestCase):
                 project=self.project,
                 rating=4,
                 feedback="Хорошая работа, но есть небольшие недочеты"
+                # Убрали is_published
             )
             assert Review.objects.count() == 1
 
@@ -747,8 +749,8 @@ class ReviewViewsetTestCase(TestCase):
         review = Review.objects.create(
             project=self.project,
             rating=5,
-            feedback="Превосходная работа! Очень доволен результатом.",
-            is_published=True
+            feedback="Превосходная работа! Очень доволен результатом."
+            # Убрали is_published
         )
 
         r = self.client.get(f'/api/reviews/{review.id}/')
@@ -768,21 +770,20 @@ class ReviewViewsetTestCase(TestCase):
         if 'client_email' in data:
             assert data['client_email'] == self.client_user.email
 
-
     def test_update_review(self):
         """Тест обновления отзыва"""
         review = Review.objects.create(
             project=self.project,
             rating=3,
-            feedback="Средняя работа",
-            is_published=True
+            feedback="Средняя работа"
+            # Убрали is_published
         )
 
         r = self.client.put(f'/api/reviews/{review.id}/', {
             "project": self.project.id,
             "rating": 5,
-            "feedback": "Отличная работа после доработок!",
-            "is_published": True
+            "feedback": "Отличная работа после доработок!"
+            # Убрали is_published
         })
 
         if r.status_code == 200:
@@ -798,6 +799,7 @@ class ReviewViewsetTestCase(TestCase):
             project=self.project,
             rating=5,
             feedback="Отличный отзыв для удаления"
+            # Убрали is_published
         )
 
         initial_count = Review.objects.count()
@@ -805,7 +807,4 @@ class ReviewViewsetTestCase(TestCase):
         
         assert r.status_code == 204
         assert Review.objects.count() == initial_count - 1
-
-
-
 

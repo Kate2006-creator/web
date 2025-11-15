@@ -2,7 +2,9 @@ from rest_framework.viewsets import GenericViewSet
 from rest_framework import mixins, viewsets
 
 from clients.models import Client, Project, Favour, Employee, ProjectService, Review
-from clients.serializers import ClientSerializer, ProjectSerializer, FavourSerializer, EmployeeSerializer, ProjectServiceSerializer, ReviewSerializer
+from django.contrib.auth.models import User
+from general.models import UserProfile
+from clients.serializers import ClientSerializer, ProjectSerializer, FavourSerializer, EmployeeSerializer, ProjectServiceSerializer, ReviewSerializer, UserSerializer, UserProfileSerializer
 
 
 class ClientsViewset(mixins.CreateModelMixin,
@@ -59,3 +61,14 @@ class ReviewViewSet(mixins.CreateModelMixin,
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
+class UserViewSet(mixins.CreateModelMixin,
+                  mixins.ListModelMixin,
+                  mixins.RetrieveModelMixin,
+                  GenericViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class UserProfileViewSet(mixins.UpdateModelMixin,
+                        GenericViewSet):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserProfileSerializer

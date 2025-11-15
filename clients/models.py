@@ -65,9 +65,6 @@ class Favour(models.Model):
         return self.name
     
 
-
-
-
 class Employee(models.Model):
     user = models.OneToOneField(
         User,
@@ -135,7 +132,6 @@ class Review(models.Model):
     rating = models.IntegerField("Оценка", default=5)  # Убрали choices
     feedback = models.TextField("Текст отзыва")
     created_at = models.DateTimeField("Дата отзыва", auto_now_add=True)
-    is_published = models.BooleanField("Опубликован", default=True)
 
     class Meta:
         verbose_name = "Отзыв"

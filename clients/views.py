@@ -1,37 +1,43 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+#from django.http import HttpResponse
+#from django.shortcuts import render
 
-from django.views import View
-from clients.models import Client, Project
+#from django.views import View
+#from clients.models import Client, Project
 
-from django.views.generic import TemplateView
+#from django.views.generic import TemplateView
 
-# Create your views here.
+from django.contrib.auth.models import User
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from general.models import UserProfile
 
-class ShowClientsView(View):
-    def get(request, *args, **kwargs):
-        clients = Client.objects.all()
+@api_view(['GET'])
+def user_list(request):
+    users = User.objects.prefetch_related('userprofile').all()
+    data = []
+    for user in users:
+        data.append({
+            'id': user.id, 
+            'username': user.username, 
+            'email': user.email,
+            'userprofile': {
+                'fio': user.userprofile.fio if hasattr(user, 'userprofile') else None
+            } if hasattr(user, 'userprofile') else None
+        })
+    return Response(data)
 
-        result = ""
-        for s in clients:
-            result += s.name + "<br>"
+@api_view(['GET'])
+def user_list(request):
+    users = User.objects.prefetch_related('userprofile').all()
+    data = []
+    for user in users:
+        data.append({
+            'id': user.id, 
+            'username': user.username, 
+            'email': user.email,
+            'userprofile': {
+                'fio': user.userprofile.fio
+            } if hasattr(user, 'userprofile') and user.userprofile else None
+        })
+    return Response(data)
 
-        return HttpResponse(result)
-
-class ClientsListTemplate(TemplateView):
-    template_name = "clients/list.html"
-
-    def get_context_data(self, **kwargs):
-
-        clients = Client.objects.all()
-
-        return {'items': clients}
-    
-class ProjectsListTemplate(TemplateView):
-    template_name = "clients/list.html"
-
-    def get_context_data(self, **kwargs):
-
-        projects = Project.objects.all()
-
-        return {'items': projects}

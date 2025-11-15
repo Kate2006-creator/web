@@ -8,7 +8,3 @@ class UserProfile(models.Model):
     birthday = models.DateField(null=True)
     user = models.OneToOneField("auth.User", on_delete=models.CASCADE)
 
-#@receiver(post_save, sender=User)
-#def create_user_profile(sender, instance, created, **kwargs):
-    #if created:
-       # UserProfile.objects.create(user=instance)
